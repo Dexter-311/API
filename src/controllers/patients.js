@@ -1,6 +1,6 @@
 import { connect } from '../database';
 import { nanoid } from 'nanoid';
-import * as queries from '../../queries/patients';
+import * as queries from '../queries/patients';
 
 export const getPatients = async (req, res) => {
     const pool = await connect();
