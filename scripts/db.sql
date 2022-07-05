@@ -2,7 +2,7 @@ CREATE DATABASE IF NOT EXISTS MedMaxDb;
 
 USE MedMaxDb;
 
-CREATE TABLE IF NOT EXISTS Patients(
+CREATE TABLE IF NOT EXISTS patients(
     id VARCHAR(50) NOT NULL ,
     cedula VARCHAR(11) NOT NULL,
     primer_nombre VARCHAR(50) NOT NULL,
@@ -15,20 +15,19 @@ CREATE TABLE IF NOT EXISTS Patients(
     PRIMARY KEY (id)
 );
 
-INSERT INTO Patients (
-    cedula,
-    primer_nombre,
-    apellidos,
-    seguro_medico,
-    seguro_medico_compania,
-    telefono,
-    direccion
-) VALUES (
-    '87345933430',
-    'JOSE',
-    'PEREZ VALDEZ',
-    '345DFG3456DFGSDFG',
-    'META-SALUD',
-    '3498345347',
-    'CALLE PRIMERA, SANTO DOMINGO ESTE'
+CREATE TABLE IF NOT EXISTS users(
+	id VARCHAR(50) NOT NULL,
+	cedula VARCHAR(11) NOT NULL,
+	nombre VARCHAR(50) NOT NULL,
+	apellidos VARCHAR(100) NOT NULL,
+	seguro_medico VARCHAR(100),
+	seguro_medico_compania VARCHAR(50),
+	telefono VARCHAR(10) NOT NULL,
+	direccion VARCHAR(100) NOT NULL,
+	email VARCHAR(50) NOT NULL,
+	user_password VARCHAR(100) NOT NULL,
+	user_status CHAR(1),
+	created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+	update_at DATETIME,
+    PRIMARY KEY (id)
 );
