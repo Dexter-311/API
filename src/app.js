@@ -4,6 +4,7 @@ import morgan from 'morgan';
 import cors from 'cors';
 import helmet from 'helmet';
 
+import adminRoutes from './routes/admin.routes';
 import patientsRoutes from './routes/patients.routes';
 import authRoutes from './routes/auth.routes';
 
@@ -23,6 +24,7 @@ app.use(morgan('dev'));
 app.use(express.json());
 
 app.use(authRoutes);
+app.use(adminRoutes);
 app.use(patientsRoutes);
 
 const specs = swaggerJsDocs(options);

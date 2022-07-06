@@ -1,33 +1,24 @@
-import { User } from "../models/user.model";
+import * as Service from "../services/auth.service";
+import { User } from "../models/auth.model";
 
 import bcrypt from "bcrypt";
-import { nanoid } from "nanoid";
 import jwt from "jsonwebtoken";
 
-export const register = async (req, res) => {
+export const registerUser = async (req, res) => {
   const salt = await bcrypt.genSalt(10);
   const hashedPassword = await bcrypt.hash(req.body.user_password, salt);
 
-  const user = new User({
-    id: nanoid(),
-    cedula: req.body.cedula,
-    nombre: req.body.segundo_nombre
-      ? req.body.primer_nombre + " " + req.body.segundo_nombre
-      : req.body.primer_nombre,
-    apellidos: req.body.apellidos,
-    seguro_medico: req.body.seguro_medico,
-    seguro_medico_compania: req.body.seguro_medico_compania,
-    telefono: req.body.telefono,
-    direccion: req.body.direccion,
-    email: req.body.email,
-    user_password: hashedPassword,
-    user_status: req.body.user_status || "2",
-  });
+  const user = new User(req.body);
+  user.user_password = hashedPassword;
+  user.nombre = req.body.segundo_nombre
+    ? req.body.primer_nombre + " " + req.body.segundo_nombre
+    : req.body.primer_nombre;
 
   try {
-    await User.isRegistered(user.cedula, user.email);
+    await Service.isRegistered(req.body.cedula, req.body.email);
 
-    await User.create(user);
+    await Service.create(user);
+
     res.send("Usuario registrado exitosamente");
   } catch (err) {
     if (err.message == "El usuario ha sido registrado anteriormente.") {
@@ -38,10 +29,10 @@ export const register = async (req, res) => {
   }
 };
 
-export const login = async (req, res) => {
+export const loginUser = async (req, res) => {
   try {
     //Check if user exists
-    const user = await User.userExist(req.body.email);
+    const user = await Service.userExist(req.body.email);
 
     //Create and assing token
     if (user) {
@@ -56,7 +47,11 @@ export const login = async (req, res) => {
 
       //Create and assign token
       const token = jwt.sign(
-        { id: user.id, status: user.user_status, exp: Math.floor(Date.now() / 1000) + (60 * 60) },
+        {
+          id: user.id,
+          status: user.user_status,
+          exp: Math.floor(Date.now() / 1000) + 60 * 60,
+        },
         process.env.TOKEN_SECRET
       );
 
@@ -79,12 +74,4 @@ export const login = async (req, res) => {
         );
     }
   }
-};
-
-export const home = (req, res) => {
-    res.send('User route');
-};
-
-export const admin = (req, res) => {
-    res.send('Admin route');
 };

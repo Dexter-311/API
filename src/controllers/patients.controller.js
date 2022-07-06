@@ -1,79 +1,29 @@
-import { connect } from '../database';
-import { nanoid } from 'nanoid';
-import * as queries from '../queries/patients';
+import * as Service from '../services/patients.service';
 
 export const getPatients = async (req, res) => {
-    const pool = await connect();
-    const [results] = await pool.query(queries.getAllPatients);
-    res.status(200).json(results);
+    Service.getPatients(req, res);
 };
 
 export const getPatientsCount = async (req, res) => {
-    const pool = await connect();
-    const [results] = await pool.query(queries.getPatientsCount);
-    res.status(200).json(results[0]['COUNT(*)']);
+    Service.getCount(req, res);
 };
 
 export const getPatientById = async (req, res) => {
-    const id = req.params.id;
-
-    const pool = await connect();
-    const [results] = await pool.query(queries.getPatientById, [id]);
-
-    res.status(200).json(results);
+    Service.getById(req, res);
 };
 
 export const createPatient = async (req, res) => {
-    try {
-        const pool = await connect();
-        await pool.query(queries.createPatient, [
-            nanoid(),
-            req.body.cedula,
-            req.body.primer_nombre,
-            req.body.segundo_nombre,
-            req.body.apellidos,
-            req.body.seguro_medico,
-            req.body.seguro_medico_compania,
-            req.body.telefono,
-            req.body.direccion,
-            
-        ]);
-        res.status(204).send("Patient created");
-    } catch(e) {
-        res.status(500);
-        console.log(e);
-    }
-
+    Service.create(req, res);
 };
 
 export const deletePatientById = async (req, res) => {
-    try {
-        const id = req.params.id;
-
-        const pool = await connect();
-        await pool.query(queries.deletePatientById, [id]);
-    
-        res.status(204);
-        res.send('Patient updated');
-
-    } catch(e) {
-        res.status(500);
-        console.log(e);
-    }
+    Service.deleteById(req, res);
 };
 
 export const updatePatientById = async (req, res) => {
-    try {
-        const id = req.params.id;
+    Service.update(req, res);
+};
 
-        const pool = await connect();
-        await pool.query(queries.updatePatientById, [req.body ,id]);
-    
-        res.status(204);
-        res.send('Patiend updated');
-
-    } catch(e) {
-        res.status(500);
-        console.log(e);
-    }
+export const home = (req, res) => {
+    res.send('User route');
 };
