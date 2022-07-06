@@ -13,6 +13,7 @@ export const registerUser = async (req, res) => {
   user.nombre = req.body.segundo_nombre
     ? req.body.primer_nombre + " " + req.body.segundo_nombre
     : req.body.primer_nombre;
+  user.user_status = req.body.user_status ? req.body.user_status : "2";
 
   try {
     await Service.isRegistered(req.body.cedula, req.body.email);
