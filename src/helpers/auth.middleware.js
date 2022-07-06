@@ -3,7 +3,7 @@ import jwt from "jsonwebtoken";
 
 export const loggedIn = (req, res, next) => {
   let token = req.header("Authorization");
-  if (!token) return res.status(401).send("Access Denied");
+  if (!token) return res.status(401).send("Acceso restringido");
 
   try {
     if (token.startsWith("Bearer ")) {
@@ -22,12 +22,12 @@ export const loggedIn = (req, res, next) => {
     next();
 
   } catch (err) {
-    res.send('Invalid Token');
+    res.send('Ha ocurrido un error de autenticación');
   }
 };
 
 export const adminOnly = (req, res, next) => {
-    if( req.user.status == "1" ){
+    if( req.user.status !== "1" ){
         return res.status(401).send("Accesso restringido");
     }  
     next();

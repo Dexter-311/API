@@ -51,7 +51,7 @@ export class User {
     const pool = await connect();
     const [row] = await pool.query(queries.exist, [value]);
 
-    if (!row.length) throw new Error("El usuario no existe.");
+    if (!row.length) throw new Error("Correo electrónico o contraseña incorrectos");
 
     return row[0];
   }

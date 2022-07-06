@@ -38,8 +38,7 @@ export const createPatient = async (req, res) => {
             req.body.direccion,
             
         ]);
-        res.status(204);
-        res.send("Patient created");
+        res.status(204).send("Patient created");
     } catch(e) {
         res.status(500);
         console.log(e);

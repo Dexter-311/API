@@ -21,7 +21,7 @@ export const register = async (req, res) => {
     direccion: req.body.direccion,
     email: req.body.email,
     user_password: hashedPassword,
-    user_status: req.body.user_status || "1",
+    user_status: req.body.user_status || "2",
   });
 
   try {
@@ -52,7 +52,7 @@ export const login = async (req, res) => {
       if (!validPassword)
         return res
           .status(400)
-          .send("Correo electrónico/telefeno o contraseña incorrectos");
+          .send("Correo electrónico o contraseña incorrectos");
 
       //Create and assign token
       const token = jwt.sign(
@@ -63,7 +63,7 @@ export const login = async (req, res) => {
       res.header("auth-token", token).send({ token: token });
     }
   } catch (err) {
-    if (err.message == "El usuario no existe.") {
+    if (err.message == "Correo electrónico o contraseña incorrectos") {
       res.status(400).send(err.message);
     } else {
       const error_data = {
