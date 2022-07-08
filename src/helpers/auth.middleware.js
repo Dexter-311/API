@@ -6,7 +6,7 @@ export let token;
 export const loggedIn = (req, res, next) => {
   token = req.header("Authorization");
 
-  if (!token) return res.status(401).redirect('https://google.com');
+  if (!token) return res.status(401).redirect('/');
 
   try {
     if (token.startsWith("Bearer ")) {
