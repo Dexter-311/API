@@ -29,7 +29,7 @@ app.use(cors());
 app.use(morgan('dev'));
 app.use(express.json());
 
-app.use(express.static(path.join('views')));
+app.use(express.static(path.join('public')));
 app.set('view enginge', 'ejs');
 
 app.use(authRoutes);
@@ -39,8 +39,14 @@ app.use(patientsRoutes);
 const specs = swaggerJsDocs(options);
 app.use('/docs', swaggerUI.serve, swaggerUI.setup(specs));
 
-app.use('*', (req, res) => {
-    res.status(404).sendFile(path.join(__dirname, '..', 'views', '404.html'));
+app.get('/test', (req, res) => {
+    res.status(404).sendFile(path.join(__dirname, 'views', 'login.html'));
+    console.log(__dirname)
+});
+
+app.get('*', (req, res) => {
+    res.status(404).sendFile(path.join(__dirname, 'views', '404.html'));
+    console.log(__dirname)
 });
 
 export default app;

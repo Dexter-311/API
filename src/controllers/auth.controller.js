@@ -7,7 +7,7 @@ import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 
 export const landingPage = async (req, res) => {
-  res.status(200).sendFile(path.join(__dirname, '..', 'views', 'pages', 'views'));
+  res.status(200).sendFile(path.join(__dirname, '..', 'views', 'index.html'));
 };
 
 export const registerUser = async (req, res) => {
