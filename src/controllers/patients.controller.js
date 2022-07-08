@@ -30,5 +30,5 @@ Patient Content
 */
 
 export const home = (req, res) => {
-    res.json({message: 'Hello!'});
+    res.status(200).json({message: 'Hello!'});
 };

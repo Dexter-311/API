@@ -7,7 +7,7 @@ import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 
 export const landingPage = async (req, res) => {
-  res.sendFile(path.join(__dirname, '..', 'views', 'pages', 'landing.html'));
+  res.status(200).sendFile(path.join(__dirname, '..', 'views', 'pages', 'out'));
 };
 
 export const registerUser = async (req, res) => {
@@ -64,7 +64,12 @@ export const loginUser = async (req, res) => {
         process.env.TOKEN_SECRET
       );
 
-      res.header("auth-token", token).send({ token: token });
+      // res.header("auth-token", token).send({ token: token });
+
+      res.cookie("access_token", token, {
+        httpOnliy: true
+      }).status(200).json({message: "succesfully logged", 
+    token: token});
     }
   } catch (err) {
     if (err.message == "Correo electrónico o contraseña incorrectos") {

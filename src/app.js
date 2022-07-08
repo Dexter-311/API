@@ -4,6 +4,7 @@ import express from 'express';
 import path from 'path';
 import ejs from 'ejs';
 
+import cookieParser from 'cookie-parser';
 import morgan from 'morgan';
 import cors from 'cors';
 import helmet from 'helmet';
@@ -20,6 +21,7 @@ import { options } from './swaggerOptions';
 const app = express();
 
 app.use(helmet());
+app.use(cookieParser());
 
 app.set('port', process.env.PORT);
 
@@ -28,6 +30,7 @@ app.use(morgan('dev'));
 app.use(express.json());
 
 app.use(express.static(path.join('public')));
+app.use(express.static(path.join('out')));
 app.set('view enginge', 'ejs');
 
 app.use(authRoutes);

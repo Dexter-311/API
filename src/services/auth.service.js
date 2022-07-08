@@ -1,8 +1,6 @@
 import { connect } from "../database";
 import * as queries from "../queries/auth";
 
-import { User } from "../models/auth.model";
-
 export const isRegistered = async (cedula, email) => {
   const pool = await connect();
   const [results] = await pool.query(queries.selectUser, [cedula, email]);

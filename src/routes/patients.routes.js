@@ -20,6 +20,6 @@ router.put("/patients/:id", Patients.updatePatientById);
 
 /* NAVEGACION DEL PACIENTE */
 
-router.get('/home/:id', loggedIn, Patients.home);
+router.get('/home/', loggedIn, Patients.home);
 
 export default router;
