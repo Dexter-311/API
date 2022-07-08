@@ -26,29 +26,6 @@ export const getById = async (req, res) => {
   res.status(200).json(results);
 };
 
-export const create = async (req, res) => {
-  const patient = new Patient(req.body);
-
-  try {
-    const pool = await connect();
-    await pool.query(queries.createPatient, [
-      nanoid(),
-      patient.cedula,
-      patient.primer_nombre,
-      patient.segundo_nombre,
-      patient.apellidos,
-      patient.seguro_medico,
-      patient.seguro_medico_compania,
-      patient.telefono,
-      patient.direccion,
-    ]);
-    res.status(200).send("Paciente creado");
-  } catch (e) {
-    res.status(500).send("Error al crear el paciente");
-    console.log(e);
-  }
-};
-
 export const deleteById = async (req, res) => {
   try {
     const id = req.params.id;

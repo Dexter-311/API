@@ -11,7 +11,7 @@ export const loggedIn = (req, res, next) => {
     }
 
     const verified = jwt.verify(token, process.env.TOKEN_SECRET);
-    if(verified.status === '1' || verified.status === '2' || verified.status === '3') {
+    if(verified.status === '1' || verified.status === '2' || verified.status == '3') {
         const req_url = req.baseUrl+req.route.path;
 
         if(req_url.includes("home/:id") && req.params.id !== verified.id) {

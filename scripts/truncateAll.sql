@@ -1,6 +1,10 @@
-CREATE DATABASE IF NOT EXISTS medmaxdb;
+use medmaxdb;
 
-USE medmaxdb;
+DROP TABLE admins;
+DROP TABLE patients;
+DROP TABLE doctors;
+
+DROP TABLE users;
 
 CREATE TABLE IF NOT EXISTS users(
 	id VARCHAR(50) NOT NULL,
@@ -72,16 +76,3 @@ CREATE TABLE IF NOT EXISTS admins (
     PRIMARY KEY (cedula),
 	FOREIGN KEY (id) REFERENCES users(id)
 );
-
--- CREATE TABLE IF NOT EXISTS patients (
---     id VARCHAR(50) NOT NULL ,
---     cedula VARCHAR(11) NOT NULL,
---     primer_nombre VARCHAR(50) NOT NULL,
---     segundo_nombre VARCHAR(50),
---     apellidos VARCHAR(100) NOT NULL,
---     seguro_medico VARCHAR(100),
---     seguro_medico_compania VARCHAR(50),
---     telefono VARCHAR(10) NOT NULL,
---     direccion VARCHAR(100) NOT NULL,
---     PRIMARY KEY (id)
--- );

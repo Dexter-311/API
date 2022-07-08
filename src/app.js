@@ -1,5 +1,9 @@
 import 'dotenv/config';
+
 import express from 'express';
+import path from 'path';
+import ejs from 'ejs';
+
 import morgan from 'morgan';
 import cors from 'cors';
 import helmet from 'helmet';
@@ -22,6 +26,9 @@ app.set('port', process.env.PORT);
 app.use(cors());
 app.use(morgan('dev'));
 app.use(express.json());
+
+app.use(express.static(path.join('public')));
+app.set('view enginge', 'ejs');
 
 app.use(authRoutes);
 app.use(adminRoutes);

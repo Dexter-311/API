@@ -1,8 +1,14 @@
+import path from 'path';
+
 import * as Service from "../services/auth.service";
 import { User } from "../models/auth.model";
 
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
+
+export const landingPage = async (req, res) => {
+  res.sendFile(path.join(__dirname, '..', 'views', 'pages', 'landing.html'));
+};
 
 export const registerUser = async (req, res) => {
   const salt = await bcrypt.genSalt(10);
@@ -20,12 +26,14 @@ export const registerUser = async (req, res) => {
 
     await Service.create(user);
 
+    await Service.migrate(user.user_status, user.id);
+
     res.send("Usuario registrado exitosamente");
   } catch (err) {
     if (err.message == "El usuario ha sido registrado anteriormente.") {
       res.status(400).send(err.message);
     } else {
-      res.status(500).send(err.message);
+      res.status(500).send("Ha ocurrido un error al registrar al usuario.");
     }
   }
 };

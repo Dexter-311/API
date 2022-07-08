@@ -13,8 +13,6 @@ router.get("/patients/count", Patients.getPatientsCount);
 
 router.get("/patients/:id", Patients.getPatientById);
 
-router.post("/patients", Patients.createPatient);
-
 router.delete("/patients/:id", Patients.deletePatientById);
 
 router.put("/patients/:id", Patients.updatePatientById);

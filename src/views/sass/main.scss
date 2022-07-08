@@ -1,0 +1,15 @@
+@import "base/base";
+@import "base/reset";
+@import "base/typography";
+
+body {
+  background-color: red;
+
+  .hello {
+    font-size: 5px;
+
+    .hi {
+      font-size: 5px;
+    }
+  }
+}
