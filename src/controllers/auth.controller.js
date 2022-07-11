@@ -1,4 +1,4 @@
-import path from 'path';
+import path from "path";
 
 import * as Service from "../services/auth.service";
 import { User } from "../models/auth.model";
@@ -7,7 +7,7 @@ import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 
 export const landingPage = async (req, res) => {
-  res.status(200).sendFile(path.join(__dirname, '..', 'views', 'index.html'));
+  res.status(200).sendFile(path.join(__dirname, "..", "views", "index.html"));
 };
 
 export const registerUser = async (req, res) => {
@@ -66,10 +66,12 @@ export const loginUser = async (req, res) => {
 
       // res.header("auth-token", token).send({ token: token });
 
-      res.cookie("access_token", token, {
-        httpOnliy: true
-      }).status(200).json({message: "succesfully logged", 
-    token: token});
+      res
+        .cookie("access_token", token, {
+          httpOnly: true,
+        })
+        .status(200)
+        .json({ message: "succesfully logged", token: token });
     }
   } catch (err) {
     if (err.message == "Correo electrónico o contraseña incorrectos") {
