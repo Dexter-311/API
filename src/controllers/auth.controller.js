@@ -11,6 +11,8 @@ export const landingPage = async (req, res) => {
 };
 
 export const registerUser = async (req, res) => {
+
+
   const salt = await bcrypt.genSalt(10);
   const hashedPassword = await bcrypt.hash(req.body.user_password, salt);
 
@@ -28,10 +30,10 @@ export const registerUser = async (req, res) => {
 
     await Service.migrate(user.user_status, user.id);
 
-    res.send("Usuario registrado exitosamente");
+    res.sendStatus(200).json({message: 'ok'});
   } catch (err) {
     if (err.message == "El usuario ha sido registrado anteriormente.") {
-      res.status(400).send(err.message);
+      res.status(409).json({message: "El usuario ha sido registrado anteriormente"});
     } else {
       res.status(500).send("Ha ocurrido un error al registrar al usuario.");
     }
