@@ -4,6 +4,7 @@ import jwt from "jsonwebtoken";
 export let token;
 
 export const loggedIn = (req, res, next) => {
+  console.log(req.cookies.access_token);
   token = req.header("Authorization");
 
   if (!token) return res.status(401).redirect('/');

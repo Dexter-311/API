@@ -46,7 +46,6 @@ app.get('/test', (req, res) => {
 
 app.get('*', (req, res) => {
     res.status(404).sendFile(path.join(__dirname, 'views', '404.html'));
-    console.log(__dirname)
 });
 
 export default app;
