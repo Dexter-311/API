@@ -1,6 +1,6 @@
 import Sequelize from 'sequelize';
 
-const sequelize = new Sequelize('medmaxdb', 'dexter', 'HHolaquetal**15', {
+const sequelize = new Sequelize(process.env.DATABASE, process.env.USER, process.env.PASSWORD, {
   host: 'localhost',
   dialect: 'mysql',
   
