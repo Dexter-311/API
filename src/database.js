@@ -1,6 +1,18 @@
-import mysql from "mysql2/promise";
-import { config } from "./config";
+import Sequelize from 'sequelize';
 
-export const connect = async () => {
-  return await mysql.createConnection(config);
-};
+const sequelize = new Sequelize('medmaxdb', 'dexter', 'HHolaquetal**15', {
+  host: 'localhost',
+  dialect: 'mysql',
+  
+});
+
+export default sequelize;
+
+
+
+// import mysql from "mysql2/promise";
+// import { config } from "./config";
+
+// export const connect = async () => {
+//   return await mysql.createConnection(config);
+// };

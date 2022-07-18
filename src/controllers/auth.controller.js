@@ -1,10 +1,13 @@
 import path from "path";
 
+//Model - Services
 import * as Service from "../services/auth.service";
 import { User } from "../models/auth.model";
 
+//Third-party libraries
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
+import { nanoid } from "nanoid";
 
 export const landingPage = async (req, res) => {
   res.status(200).sendFile(path.join(__dirname, "..", "views", "index.html"));
@@ -14,19 +17,26 @@ export const registerUser = async (req, res) => {
   const salt = await bcrypt.genSalt(10);
   const hashedPassword = await bcrypt.hash(req.body.user_password, salt);
 
-  const user = new User(req.body);
-  user.user_password = hashedPassword;
-  user.nombre = req.body.segundo_nombre
-    ? req.body.primer_nombre + " " + req.body.segundo_nombre
-    : req.body.primer_nombre;
-  user.user_status = req.body.user_status ? req.body.user_status : "2";
+  const user = {
+    id: nanoid(),
+    cedula: req.body.cedula,
+    nombre: req.body.segundo_nombre
+      ? req.body.primer_nombre + " " + req.body.segundo_nombre
+      : req.body.primer_nombre,
+    apellidos: req.body.apellidos,
+    seguro_medico: req.body.seguro_medico,
+    seguro_medico_compania: req.body.seguro_medico_compania,
+    telefono: req.body.telefono,
+    direccion: req.body.direccion,
+    email: req.body.email,
+    user_password: hashedPassword,
+    user_status: "2"
+  };
 
   try {
     await Service.isRegistered(req.body.cedula, req.body.email);
 
     await Service.create(user);
-
-    await Service.migrate(user.user_status, user.id);
 
     res.status(200).json({ message: "ok" });
   } catch (err) {
@@ -35,6 +45,7 @@ export const registerUser = async (req, res) => {
         .status(409)
         .json({ message: "El usuario ha sido registrado anteriormente" });
     } else {
+      console.log(err);
       res.status(500).send("Ha ocurrido un error al registrar al usuario.");
     }
   }
