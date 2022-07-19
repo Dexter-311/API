@@ -8,9 +8,11 @@ import path from "path";
 import express from "express";
 import session from "express-session";
 
-//Redis
-import ConnectRedis from "connect-redis";
-import { createClient } from "redis";
+//Sequelize
+import sequelize from "./database";
+
+//Connect-Sequelize
+import Store from 'connect-session-sequelize';
 
 //Third-party libraries
 import cookieParser from "cookie-parser";
@@ -33,29 +35,25 @@ const app = express();
 app.use(helmet());
 app.use(cookieParser());
 
-app.set("trust proxy", 1);
-
-const RedisStore = ConnectRedis(session);
-
-const RedisClient = createClient({ host: '127.0.0.1', port: 6379, legacyMode: true });
-
-RedisClient.connect().catch(console.error);
-RedisClient.on("error", console.error);
+const SequelizeStore = Store(session.Store);
 
 app.use(
   session({
     secret: process.env.SESSION_SECRET,
-    store: new RedisStore({ client: RedisClient }),
     resave: false,
     name: "sessionId",
     saveUninitialized: false,
+    store: new SequelizeStore({
+      db: sequelize,
+      expiration: 1 * 60 * 1000,
+      checkExpirationInterval: 1 * 60 * 1000,
+    }),
     cookie: {
-      maxAge: 120,
+      secure: false,
+      maxAge: 90 * 1000
     },
   })
 );
-
-
 
 app.set("port", process.env.PORT);
 

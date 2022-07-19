@@ -2,11 +2,9 @@ import path from "path";
 
 //Model - Services
 import * as Service from "../services/auth.service";
-import { User } from "../models/auth.model";
 
 //Third-party libraries
 import bcrypt from "bcrypt";
-import jwt from "jsonwebtoken";
 import { nanoid } from "nanoid";
 
 export const landingPage = async (req, res) => {
@@ -30,7 +28,7 @@ export const registerUser = async (req, res) => {
     direccion: req.body.direccion,
     email: req.body.email,
     user_password: hashedPassword,
-    user_status: "2"
+    user_status: "2",
   };
 
   try {
@@ -67,27 +65,9 @@ export const loginUser = async (req, res) => {
           .status(400)
           .send("Correo electrónico o contraseña incorrectos");
 
-      //Create and assign token
-      const token = jwt.sign(
-        {
-          id: user.id,
-          status: user.user_status,
-          exp: Math.floor(Date.now() / 1000) + 60 * 60,
-        },
-        process.env.TOKEN_SECRET
-      );
+      req.session.user = { id: user.id, status: user.user_status };
 
-      // res.header("auth-token", token).send({ token: token });
-      
-      req.session.access_token = "hi";
-      console.log(req.session);
       res.status(200).send('ok');
-      // res
-      //   .cookie("access_token", token, {
-      //     httpOnly: true,
-      //   })
-        // .status(200)
-        // .json({ message: "succesfully logged", token: token });
     }
   } catch (err) {
     if (err.message == "Correo electrónico o contraseña incorrectos") {

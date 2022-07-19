@@ -7,6 +7,8 @@ const router = Router();
 
 /* NAVEGACION DEL PACIENTE */
 
-router.get('/home/', loggedIn, Patients.home);
+router.get('/home', loggedIn, Patients.home);
+
+router.post('/user', loggedIn, Patients.getUser);
 
 export default router;
