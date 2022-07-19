@@ -2,8 +2,15 @@
 import "dotenv/config";
 
 //Node
-import express from "express";
 import path from "path";
+
+//Express
+import express from "express";
+import session from "express-session";
+
+//Redis
+import ConnectRedis from "connect-redis";
+import { createClient } from "redis";
 
 //Third-party libraries
 import cookieParser from "cookie-parser";
@@ -25,6 +32,30 @@ const app = express();
 
 app.use(helmet());
 app.use(cookieParser());
+
+app.set("trust proxy", 1);
+
+const RedisStore = ConnectRedis(session);
+
+const RedisClient = createClient({ host: '127.0.0.1', port: 6379, legacyMode: true });
+
+RedisClient.connect().catch(console.error);
+RedisClient.on("error", console.error);
+
+app.use(
+  session({
+    secret: process.env.SESSION_SECRET,
+    store: new RedisStore({ client: RedisClient }),
+    resave: false,
+    name: "sessionId",
+    saveUninitialized: false,
+    cookie: {
+      maxAge: 120,
+    },
+  })
+);
+
+
 
 app.set("port", process.env.PORT);
 

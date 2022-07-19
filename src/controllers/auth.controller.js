@@ -78,13 +78,16 @@ export const loginUser = async (req, res) => {
       );
 
       // res.header("auth-token", token).send({ token: token });
-
-      res
-        .cookie("access_token", token, {
-          httpOnly: true,
-        })
-        .status(200)
-        .json({ message: "succesfully logged", token: token });
+      
+      req.session.access_token = "hi";
+      console.log(req.session);
+      res.status(200).send('ok');
+      // res
+      //   .cookie("access_token", token, {
+      //     httpOnly: true,
+      //   })
+        // .status(200)
+        // .json({ message: "succesfully logged", token: token });
     }
   } catch (err) {
     if (err.message == "Correo electrónico o contraseña incorrectos") {

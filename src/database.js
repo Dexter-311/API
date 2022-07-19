@@ -7,12 +7,3 @@ const sequelize = new Sequelize(process.env.DATABASE, process.env.USER, process.
 });
 
 export default sequelize;
-
-
-
-// import mysql from "mysql2/promise";
-// import { config } from "./config";
-
-// export const connect = async () => {
-//   return await mysql.createConnection(config);
-// };
