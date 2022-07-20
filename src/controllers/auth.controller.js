@@ -8,6 +8,8 @@ import bcrypt from "bcrypt";
 import { nanoid } from "nanoid";
 
 export const landingPage = async (req, res) => {
+  if(req.session.user) res.redirect('/home');
+
   res.status(200).sendFile(path.join(__dirname, "..", "views", "index.html"));
 };
 

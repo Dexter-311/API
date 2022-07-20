@@ -9,6 +9,6 @@ const router = Router();
 
 router.get('/home', loggedIn, Patients.home);
 
-router.post('/user', loggedIn, Patients.getUser);
+router.get('/user', loggedIn, Patients.getUser);
 
 export default router;

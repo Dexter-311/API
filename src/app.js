@@ -63,9 +63,11 @@ app.use(express.json());
 
 app.use(express.static(path.join("public")));
 
-app.use(authRoutes);
 app.use(adminRoutes);
 app.use(patientsRoutes);
+app.use(authRoutes);
+
+
 
 const specs = swaggerJsDocs(options);
 app.use("/docs", swaggerUI.serve, swaggerUI.setup(specs));

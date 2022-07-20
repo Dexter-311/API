@@ -4,6 +4,6 @@ import { loggedIn, adminOnly } from "../middlewares/auth.middleware";
 
 const router = Router();
 
-router.get('/admin/', loggedIn, adminOnly, Admin.admin);
+router.get('/admin', loggedIn, adminOnly, Admin.admin);
 
 export default router;
