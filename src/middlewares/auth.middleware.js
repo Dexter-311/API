@@ -1,4 +1,3 @@
-import cookieParser from "cookie-parser";
 import "dotenv/config";
 
 export let token;
