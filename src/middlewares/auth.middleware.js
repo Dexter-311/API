@@ -14,7 +14,7 @@ export const loggedIn = (req, res, next) => {
 };
 
 export const adminOnly = (req, res, next) => {
-    if( req.session.user.status !== "2" ){
+    if( req.session.user.status !== "1" ){
         return res.status(401).send("Accesso restringido");
     }  
     next();

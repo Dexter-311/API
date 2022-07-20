@@ -12,7 +12,6 @@ export const home = async (req, res) => {
 export const getUser = async (req, res) => {
   try {
     const user = await Service.getUser(req.session.user.id);
-    console.log(user);
     res.status(200).json({ name: user.dataValues.nombre });
   } catch (err) {
     console.log(err);
